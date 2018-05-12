@@ -27,6 +27,9 @@ class ProductDetailPage extends Component {
     this.purchaseProduct = this.purchaseProduct.bind(this)
     this.state.errors = []
     this.state.buyMessage = null
+
+    this.state.cartMessage = null
+    this.cartProduct = this.cartProduct.bind(this)
   }
 
   productsLoaded(products) {
@@ -65,15 +68,40 @@ class ProductDetailPage extends Component {
     })
   }
 
+    cartProduct() {
+    this.props.awsLogin.makeApiRequest(config.EventWriterApi, 'POST', '/event-writer/', {
+      schema: 'com.nordstrom/product/cart/1-0-0',
+      id: this.props.params.id,
+      origin: `hello-retail/web-client-purchase-product/${this.props.awsLogin.state.profile.id}/${this.props.awsLogin.state.profile.name}`,
+    })
+      .then(() => {
+        // browserHistory.push('/categories/')
+        this.setState({
+          cartMessage: 'Finished adding to cart.',
+        })
+      })
+      .catch((error) => {
+        // Show error message and re-enable button so user can try again.
+        console.log(error)
+        this.setState({
+          errors: [error],
+        })
+      })
+
+    this.setState({
+      cartMessage: 'Please wait...',
+    })
+  }
+
   render() {
     // TODO: Add query for single product by id
     // TODO: Add image
 
     let blurb = null
-    if (!this.state.buyMessage) {
-      blurb = <button onClick={this.purchaseProduct}>Buy</button>
+    if (!this.state.cartMessage) {
+      blurb = <button onClick={this.cartProduct}>Add to Cart</button>
     } else {
-      blurb = <h4>{this.state.buyMessage}</h4>
+      blurb = <h4>{this.state.cartMessage}</h4>
     }
 
     const backButtonStyle = {
