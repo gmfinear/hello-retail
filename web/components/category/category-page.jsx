@@ -25,6 +25,7 @@ class CategoryPage extends Component {
         <h3><em>Categories</em></h3>
         <CategoryList className="categoryList" categories={this.state.categoryList} />
         <CategoryDataSource awsLogin={this.props.awsLogin} categoriesLoaded={this.categoriesLoaded} />
+        <h3><em>Shopping Cart</em></h3>
       </div>
     )
   }
