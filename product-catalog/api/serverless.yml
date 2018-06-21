@@ -1,4 +1,4 @@
-frameworkVersion: '>=1.0.0 <2.0.0'
+frameworkVersion: '>=1.0.0 <2.0.0' #adding a comment
 
 service: ${self:custom.helloRetail.name}-product-catalog-api
 
